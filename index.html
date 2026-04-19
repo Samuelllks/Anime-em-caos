@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime em Caos | Oficial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #050505;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Fundo com anime.jpg */
+        .bg-anime {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('anime.jpg') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -2;
+            filter: blur(8px);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: -1;
+        }
+
+        /* Título e Slogan */
+        .header-section {
+            margin-top: 50px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* --- NOVO EFEITO DE GLITCH NO TÍTULO --- */
+        .glitch-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            color: white;
+            position: relative;
+            /* Brilho base */
+            text-shadow: 0 0 15px rgba(255, 71, 87, 0.6);
+        }
+
+        /* Camadas de cor do Glitch */
+        .title::before,
+        .title::after {
+            content: "Anime em Caos";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .title::before {
+            color: #00f2ea; /* Ciano */
+            z-index: -1;
+            animation: glitchEffect 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite both;
+        }
+
+        .title::after {
+            color: #ff4757; /* Vermelho */
+            z-index: -2;
+            animation: glitchEffect 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite reverse both;
+        }
+
+        /* Animação do Glitch (tremedeira e corte) */
+        @keyframes glitchEffect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Adicionando cortes horizontais aleatórios */
+        .title::before {
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            animation-duration: 0.3s;
+        }
+        .title::after {
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+            animation-duration: 0.5s;
+        }
+        /* --- FIM DO EFEITO GLITCH --- */
+
+        .subtitle {
+            color: #ddd;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            margin-top: 15px;
+            font-weight: 300;
+            max-width: 600px;
+            line-height: 1.6;
+            text-transform: uppercase;
+        }
+
+        /* Vídeo */
+        .video-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0,0,0,1);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        video { width: 100%; display: block; }
+
+        /* Botões */
+        .social-grid {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .social-btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.1) rotate(-1deg);
+            filter: brightness(1.2);
+        }
+
+        .yt { background: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+        .tk { background: #010101; border: 1px solid #00f2ea; box-shadow: 0 0 15px rgba(0, 242, 234, 0.3); }
+        .ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 0 15px rgba(220, 39, 67, 0.3); }
+
+        .sponsor-btn {
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 10px 20px;
+            border: 1px dotted rgba(255,255,255,0.2);
+            border-radius: 50px;
+            transition: 0.4s;
+            margin-bottom: 40px;
+        }
+
+        .sponsor-btn:hover {
+            color: #ffca28;
+            border-color: #ffca28;
+            background: rgba(255, 202, 40, 0.05);
+        }
+
+        .footer {
+            margin: 50px 0;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .social-grid { flex-direction: column; width: 85%; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="bg-anime"></div>
+    <div class="overlay"></div>
+
+    <header class="header-section">
+        <div class="glitch-wrapper">
+            <h1 class="title">Anime em Caos</h1>
+        </div>
+        <p class="subtitle">O DNA DE DEUS DESPERTOU EM 2008.<br>A EVOLUÇÃO NÃO FOI APENAS UMA BENÇÃO.</p>
+    </header>
+
+    <div class="video-container">
+        <video controls poster="anime.jpg">
+            <source src="anime.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="social-grid">
+        <a href="LINK_DO_YOUTUBE" target="_blank" class="social-btn yt">
+            <i class="fab fa-youtube"></i> YouTube
+        </a>
+        <a href="LINK_DO_TIKTOK" target="_blank" class="social-btn tk">
+            <i class="fab fa-tiktok"></i> TikTok
+        </a>
+        <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-btn ig">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+    </div>
+
+    <a href="LINK_DO_PATROCINIO" class="sponsor-btn">Torne-se patrocinador</a>
+
+    <footer class="footer">
+        © 2026 Anime em Caos - Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>
