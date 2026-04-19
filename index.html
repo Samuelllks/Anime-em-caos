@@ -5,13 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime em Caos | Oficial</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Rajdhani:wght@400;700&family=Orbitron:wght@900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --red: #ff2233;
+            --cyan: #00f2ea;
+            --gold: #ffd200;
+            --dark: #050505;
+            --white: #ffffff;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #050505;
-            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--white);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -19,196 +28,484 @@
             overflow-x: hidden;
         }
 
-        /* Fundo com anime.jpg */
+        /* ===== FUNDO ===== */
         .bg-anime {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: url('anime.jpg') no-repeat center center fixed;
             background-size: cover;
-            z-index: -2;
-            filter: blur(8px);
+            z-index: -3;
+            filter: blur(10px) brightness(0.4);
         }
 
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
-            z-index: -1;
+            background: radial-gradient(ellipse at 50% 0%, rgba(255,34,51,0.12) 0%, rgba(0,0,0,0.92) 70%);
+            z-index: -2;
         }
 
-        /* Título e Slogan */
+        /* Partículas */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* Linha de scan (CRT) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 3px,
+                rgba(0,0,0,0.08) 3px,
+                rgba(0,0,0,0.08) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ===== HEADER ===== */
         .header-section {
-            margin-top: 50px;
+            margin-top: 55px;
             text-align: center;
             padding: 0 20px;
+            position: relative;
         }
 
-        /* --- NOVO EFEITO DE GLITCH NO TÍTULO --- */
+        /* Tag acima do título */
+        .tag-above {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 6px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            opacity: 0.8;
+            animation: blinkTag 2s step-end infinite;
+        }
+        @keyframes blinkTag {
+            0%, 100% { opacity: 0.8; }
+            50%       { opacity: 0.2; }
+        }
+
+        /* ===== TÍTULO SUPER MELHORADO ===== */
         .glitch-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        /* Brilho atrás do título */
+        .title-glow-bg {
+            position: absolute;
+            width: 110%;
+            height: 140%;
+            background: radial-gradient(ellipse, rgba(255,34,51,0.25) 0%, transparent 70%);
+            animation: pulseGlow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1);   opacity: 1; }
+            50%       { transform: scale(1.1); opacity: 0.6; }
         }
 
         .title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: clamp(2.8rem, 10vw, 5.5rem);
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: -1px;
-            color: white;
+            letter-spacing: 4px;
+            color: var(--white);
             position: relative;
-            /* Brilho base */
-            text-shadow: 0 0 15px rgba(255, 71, 87, 0.6);
+            text-shadow:
+                0 0 20px rgba(255, 34, 51, 0.9),
+                0 0 50px rgba(255, 34, 51, 0.4),
+                0 0 100px rgba(255, 34, 51, 0.2);
+            animation: titlePulse 4s ease-in-out infinite;
+            cursor: default;
+            user-select: none;
         }
 
-        /* Camadas de cor do Glitch */
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,34,51,0.9), 0 0 50px rgba(255,34,51,0.4), 0 0 100px rgba(255,34,51,0.2); }
+            50%       { text-shadow: 0 0 30px rgba(255,34,51,1),   0 0 80px rgba(255,34,51,0.6), 0 0 140px rgba(255,34,51,0.3), 0 0 5px var(--cyan); }
+        }
+
+        /* Glitch layers */
         .title::before,
         .title::after {
-            content: "Anime em Caos";
+            content: attr(data-text);
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.8;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
         }
-
         .title::before {
-            color: #00f2ea; /* Ciano */
+            color: var(--cyan);
             z-index: -1;
-            animation: glitchEffect 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite both;
+            clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+            animation: glitchTop 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite both;
         }
-
         .title::after {
-            color: #ff4757; /* Vermelho */
+            color: var(--red);
             z-index: -2;
-            animation: glitchEffect 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite reverse both;
-        }
-
-        /* Animação do Glitch (tremedeira e corte) */
-        @keyframes glitchEffect {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
-        }
-
-        /* Adicionando cortes horizontais aleatórios */
-        .title::before {
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-            animation-duration: 0.3s;
-        }
-        .title::after {
             clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-            animation-duration: 0.5s;
+            animation: glitchBot 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite both;
         }
-        /* --- FIM DO EFEITO GLITCH --- */
+        @keyframes glitchTop {
+            0%  { transform: translate(0); }
+            20% { transform: translate(-4px, 2px) skewX(2deg); }
+            40% { transform: translate(4px, -2px) skewX(-2deg); }
+            60% { transform: translate(-2px, 3px); }
+            80% { transform: translate(3px, -1px); }
+            100%{ transform: translate(0); }
+        }
+        @keyframes glitchBot {
+            0%  { transform: translate(0); }
+            20% { transform: translate(4px, 3px) skewX(-3deg); }
+            40% { transform: translate(-3px, -2px) skewX(3deg); }
+            60% { transform: translate(2px, 4px); }
+            80% { transform: translate(-4px, -2px); }
+            100%{ transform: translate(0); }
+        }
 
-        .subtitle {
-            color: #ddd;
-            font-size: 0.9rem;
+        /* Glitch shake ocasional */
+        .title {
+            animation: titlePulse 4s ease-in-out infinite, glitchShake 8s step-end infinite;
+        }
+        @keyframes glitchShake {
+            0%,95%,100% { transform: translate(0) skewX(0); }
+            96% { transform: translate(-6px, 2px) skewX(-3deg); filter: hue-rotate(90deg); }
+            97% { transform: translate(6px, -2px) skewX(3deg); }
+            98% { transform: translate(-3px, 4px); filter: hue-rotate(0deg); }
+            99% { transform: translate(0); }
+        }
+
+        /* Decoração lateral do título */
+        .title-decoration {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 12px;
+            justify-content: center;
+        }
+        .deco-line {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, var(--red), transparent);
+            animation: decoFlash 2s ease-in-out infinite;
+        }
+        .deco-line.right { background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
+        @keyframes decoFlash {
+            0%,100% { opacity: 0.5; width: 60px; }
+            50%      { opacity: 1;   width: 100px; }
+        }
+        .deco-icon {
+            font-size: 0.7rem;
+            color: var(--gold);
             letter-spacing: 3px;
-            margin-top: 15px;
-            font-weight: 300;
-            max-width: 600px;
-            line-height: 1.6;
-            text-transform: uppercase;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 10px var(--gold);
         }
 
-        /* Vídeo */
+        /* Subtítulo */
+        .subtitle {
+            color: #bbb;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            margin-top: 18px;
+            font-weight: 400;
+            max-width: 560px;
+            line-height: 1.8;
+            text-transform: uppercase;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        /* ===== VÍDEO ===== */
         .video-container {
             width: 90%;
             max-width: 800px;
-            margin: 40px 0;
-            border-radius: 15px;
+            margin: 45px 0 35px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 60px rgba(0,0,0,1);
-            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow:
+                0 0 0 1px rgba(255,34,51,0.3),
+                0 0 40px rgba(255,34,51,0.2),
+                0 20px 60px rgba(0,0,0,0.9);
+            position: relative;
+            transition: box-shadow 0.4s;
         }
-
+        .video-container:hover {
+            box-shadow:
+                0 0 0 1px rgba(255,34,51,0.6),
+                0 0 60px rgba(255,34,51,0.35),
+                0 20px 60px rgba(0,0,0,0.9);
+        }
         video { width: 100%; display: block; }
 
-        /* Botões */
+        /* ===== GRADE DE BOTÕES SOCIAIS ===== */
         .social-grid {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 14px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .social-btn {
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: 14px 28px;
+            border-radius: 6px;
             text-decoration: none;
             color: white;
-            font-weight: 800;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 0.95rem;
             text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 1.5px;
+            font-family: 'Rajdhani', sans-serif;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        box-shadow 0.25s ease,
+                        filter 0.25s ease;
+        }
+
+        /* Ripple effect */
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.25);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease;
+            opacity: 0;
+        }
+        .social-btn:active::before {
+            width: 300px; height: 300px;
+            opacity: 0;
+            transition: 0s;
+        }
+
+        /* Shine sweep */
+        .social-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.18), transparent);
+            transition: left 0.5s ease;
+        }
+        .social-btn:hover::after { left: 150%; }
+
+        .social-btn:hover {
+            transform: translateY(-4px) scale(1.06);
+            filter: brightness(1.15) saturate(1.2);
+        }
+        .social-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            filter: brightness(0.9);
+        }
+
+        .yt {
+            background: linear-gradient(135deg, #cc0000, #ff0000);
+            box-shadow: 0 4px 20px rgba(255,0,0,0.35);
+        }
+        .yt:hover { box-shadow: 0 8px 30px rgba(255,0,0,0.55); }
+
+        .tk {
+            background: linear-gradient(135deg, #010101, #1a1a1a);
+            border: 1px solid var(--cyan);
+            box-shadow: 0 4px 20px rgba(0,242,234,0.25);
+        }
+        .tk:hover { box-shadow: 0 8px 30px rgba(0,242,234,0.5); }
+
+        .ig {
+            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            box-shadow: 0 4px 20px rgba(220,39,67,0.35);
+        }
+        .ig:hover { box-shadow: 0 8px 30px rgba(220,39,67,0.55); }
+
+        /* Ícones com animação */
+        .social-btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        .social-btn:hover i { transform: rotate(-10deg) scale(1.2); }
+
+        /* ===== BOTÃO PATROCINADOR - TOTALMENTE NOVO ===== */
+        .sponsor-wrapper {
+            margin-bottom: 50px;
             position: relative;
         }
 
-        .social-btn:hover {
-            transform: scale(1.1) rotate(-1deg);
-            filter: brightness(1.2);
+        .sponsor-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 14px 30px;
+            border: 1px solid rgba(255,210,0,0.4);
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255,210,0,0.04);
         }
 
-        .yt { background: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
-        .tk { background: #010101; border: 1px solid #00f2ea; box-shadow: 0 0 15px rgba(0, 242, 234, 0.3); }
-        .ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 0 15px rgba(220, 39, 67, 0.3); }
-
-        .sponsor-btn {
-            color: rgba(255,255,255,0.4);
-            text-decoration: none;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 10px 20px;
-            border: 1px dotted rgba(255,255,255,0.2);
+        /* Brilho giratório em volta */
+        .sponsor-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
             border-radius: 50px;
-            transition: 0.4s;
-            margin-bottom: 40px;
+            background: conic-gradient(from var(--angle, 0deg), transparent 70%, var(--gold) 80%, transparent 90%);
+            animation: spinBorder 3s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @keyframes spinBorder {
+            to { --angle: 360deg; }
+        }
+        .sponsor-btn:hover::before { opacity: 1; }
+
+        /* Fundo interno */
+        .sponsor-btn::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 50px;
+            background: #050505;
+            z-index: 0;
+        }
+
+        .sponsor-btn span, .sponsor-btn i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .sponsor-btn i {
+            font-size: 1rem;
+            animation: starSpin 4s linear infinite;
+        }
+        @keyframes starSpin {
+            0%   { transform: rotate(0)    scale(1); }
+            50%  { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
         }
 
         .sponsor-btn:hover {
-            color: #ffca28;
-            border-color: #ffca28;
-            background: rgba(255, 202, 40, 0.05);
+            color: #fff;
+            border-color: var(--gold);
+            background: rgba(255,210,0,0.08);
+            box-shadow: 0 0 25px rgba(255,210,0,0.4), inset 0 0 20px rgba(255,210,0,0.05);
+            transform: scale(1.05);
+            letter-spacing: 4px;
+        }
+        .sponsor-btn:active { transform: scale(0.97); }
+
+        /* WhatsApp pulse tag */
+        .sponsor-tag {
+            position: absolute;
+            top: -11px; right: -10px;
+            background: #25D366;
+            color: white;
+            font-size: 0.55rem;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(37,211,102,0.6);
+            animation: pulseBadge 2s ease-in-out infinite;
+        }
+        @keyframes pulseBadge {
+            0%, 100% { box-shadow: 0 0 10px rgba(37,211,102,0.6); }
+            50%       { box-shadow: 0 0 20px rgba(37,211,102,0.9); }
         }
 
+        /* ===== FOOTER ===== */
         .footer {
-            margin: 50px 0;
-            font-size: 0.9rem;
-            color: #666;
+            margin: 30px 0 50px;
+            font-size: 0.75rem;
+            color: #444;
             text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', monospace;
         }
+        .footer span { color: var(--red); }
 
+        /* ===== RESPONSIVO ===== */
         @media (max-width: 600px) {
             .social-grid { flex-direction: column; width: 85%; }
+            .deco-line { width: 40px; }
+            .title { letter-spacing: 2px; }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="bg-anime"></div>
     <div class="overlay"></div>
+    <div class="particles" id="particles"></div>
 
     <header class="header-section">
+        <p class="tag-above">▶ TRANSMISSÃO AO VIVO &nbsp;|&nbsp; CANAL OFICIAL</p>
+
         <div class="glitch-wrapper">
-            <h1 class="title">Anime em Caos</h1>
+            <div class="title-glow-bg"></div>
+            <h1 class="title" data-text="Anime em Caos">Anime em Caos</h1>
         </div>
+
+        <div class="title-decoration">
+            <div class="deco-line"></div>
+            <span class="deco-icon">⚡ CAOS ⚡</span>
+            <div class="deco-line right"></div>
+        </div>
+
         <p class="subtitle">O DNA DE DEUS DESPERTOU EM 2008.<br>A EVOLUÇÃO NÃO FOI APENAS UMA BENÇÃO.</p>
     </header>
 
@@ -222,19 +519,86 @@
         <a href="LINK_DO_YOUTUBE" target="_blank" class="social-btn yt">
             <i class="fab fa-youtube"></i> YouTube
         </a>
+        <a href="https://www.instagram.com/k4iky_18?igsh=d3YyemE3Ym00d2Jv" target="_blank" class="social-btn ig">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
         <a href="LINK_DO_TIKTOK" target="_blank" class="social-btn tk">
             <i class="fab fa-tiktok"></i> TikTok
         </a>
-        <a href="LINK_DO_INSTAGRAM" target="_blank" class="social-btn ig">
-            <i class="fab fa-instagram"></i> Instagram
-        </a>
     </div>
 
-    <a href="LINK_DO_PATROCINIO" class="sponsor-btn">Torne-se patrocinador</a>
+    <div class="sponsor-wrapper">
+        <a href="https://wa.me/5588988152717?text=Ol%C3%A1!%20Quero%20ser%20patrocinador%20do%20Anime%20em%20Caos%20%F0%9F%94%A5" target="_blank" class="sponsor-btn">
+            <i class="fas fa-star"></i>
+            <span>Torne-se patrocinador</span>
+        </a>
+        <span class="sponsor-tag"><i class="fab fa-whatsapp"></i> WhatsApp</span>
+    </div>
 
     <footer class="footer">
-        © 2026 Anime em Caos - Todos os direitos reservados.
+        © 2026 <span>Anime em Caos</span> — Todos os direitos reservados.
     </footer>
 
+    <script>
+        // Gera partículas flutuantes
+        const container = document.getElementById('particles');
+        const colors = ['#ff2233','#00f2ea','#ffd200','#ff6680','#ffffff'];
+        for (let i = 0; i < 35; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 5 + 2;
+            p.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${Math.random() * 100}%;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                animation-duration: ${Math.random() * 12 + 8}s;
+                animation-delay: ${Math.random() * 10}s;
+                box-shadow: 0 0 ${size * 2}px currentColor;
+                filter: blur(${Math.random() > 0.7 ? 1 : 0}px);
+            `;
+            container.appendChild(p);
+        }
+
+        // Ripple nos botões sociais
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height) * 2;
+                ripple.style.cssText = `
+                    position:absolute;
+                    border-radius:50%;
+                    background:rgba(255,255,255,0.3);
+                    width:${size}px; height:${size}px;
+                    left:${e.clientX - rect.left - size/2}px;
+                    top:${e.clientY - rect.top - size/2}px;
+                    transform:scale(0);
+                    animation: rippleAnim 0.6s linear;
+                    pointer-events:none;
+                `;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Adiciona keyframe do ripple via JS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rippleAnim {
+                to { transform: scale(1); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Glitch extra aleatório no título ao passar o mouse
+        const title = document.querySelector('.title');
+        title.addEventListener('mouseenter', () => {
+            title.style.animation = 'glitchShake 0.3s step-end infinite, titlePulse 4s ease-in-out infinite';
+        });
+        title.addEventListener('mouseleave', () => {
+            title.style.animation = 'titlePulse 4s ease-in-out infinite, glitchShake 8s step-end infinite';
+        });
+    </script>
 </body>
 </html>
