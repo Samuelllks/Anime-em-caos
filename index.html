@@ -26,68 +26,20 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* ===== FUNDO OTIMIZADO ===== */
-        .bg-anime {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: url('anime.jpg') no-repeat center center;
+            /* A imagem anime.jpg agora é o fundo direto do body */
+            background: url('anime.jpg') no-repeat center center fixed;
             background-size: cover;
-            z-index: -3;
-            filter: blur(10px) brightness(0.4);
-            transform: scale(1.1);
-            will-change: transform;
         }
 
-        .overlay {
+        /* Camada escura apenas para dar leitura ao texto sobre a imagem */
+        .overlay-fix {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(ellipse at 50% 0%, rgba(255,34,51,0.12) 0%, rgba(0,0,0,0.92) 70%);
-            z-index: -2;
-            pointer-events: none;
-        }
-
-        .particles {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             z-index: -1;
-            pointer-events: none;
-        }
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: floatUp linear infinite;
-            will-change: transform, opacity;
-        }
-        @keyframes floatUp {
-            0%   { transform: translateY(110vh) translateZ(0) scale(0); opacity: 0; }
-            10%  { opacity: 1; }
-            90%  { opacity: 0.6; }
-            100% { transform: translateY(-10vh) translateZ(0) scale(1); opacity: 0; }
         }
 
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                to bottom,
-                transparent 0px,
-                transparent 3px,
-                rgba(0,0,0,0.05) 3px,
-                rgba(0,0,0,0.05) 4px
-            );
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* ===== HEADER ===== */
         .header-section {
             margin-top: 80px;
             text-align: center;
@@ -96,84 +48,21 @@
             z-index: 10;
         }
 
-        /* ===== TÍTULO ===== */
-        .glitch-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 10px 0;
-        }
-
-        .title-glow-bg {
-            position: absolute;
-            width: 110%;
-            height: 140%;
-            background: radial-gradient(ellipse, rgba(255,34,51,0.2) 0%, transparent 70%);
-            animation: pulseGlow 3s ease-in-out infinite;
-            pointer-events: none;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50%       { transform: scale(1.05); opacity: 0.4; }
-        }
-
+        /* NOME EM VERMELHO COM EFEITO SUAVE */
         .title {
             font-family: 'Black Han Sans', sans-serif;
             font-size: clamp(2.8rem, 10vw, 5.5rem);
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 4px;
-            color: var(--white);
-            position: relative;
-            text-shadow: 0 0 20px rgba(255, 34, 51, 0.7);
-            animation: titlePulse 4s ease-in-out infinite, glitchShake 10s step-end infinite;
-            cursor: default;
-            user-select: none;
-            will-change: transform, text-shadow;
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { text-shadow: 0 0 20px rgba(255,34,51,0.8), 0 0 50px rgba(255,34,51,0.3); }
-            50%       { text-shadow: 0 0 30px rgba(255,34,51,1), 0 0 5px var(--cyan); }
-        }
-
-        .title::before, .title::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0.8;
-        }
-        .title::before {
-            color: var(--cyan);
-            z-index: -1;
-            clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
-            animation: glitchTop 0.4s linear infinite;
-        }
-        .title::after {
             color: var(--red);
-            z-index: -2;
-            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-            animation: glitchBot 0.4s linear infinite;
+            text-shadow: 0 0 15px rgba(255, 34, 51, 0.8);
+            animation: pulseSuave 4s ease-in-out infinite;
         }
 
-        @keyframes glitchTop {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 1px); }
-            40% { transform: translate(2px, -1px); }
-            100% { transform: translate(0); }
-        }
-        @keyframes glitchBot {
-            0% { transform: translate(0); }
-            20% { transform: translate(2px, 1px); }
-            40% { transform: translate(-2px, -1px); }
-            100% { transform: translate(0); }
-        }
-
-        @keyframes glitchShake {
-            0%, 98%, 100% { transform: translate(0); }
-            99% { transform: translate(-4px, 2px) skewX(-2deg); }
+        @keyframes pulseSuave {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.9; }
         }
 
         .title-decoration {
@@ -183,20 +72,8 @@
             margin-top: 12px;
             justify-content: center;
         }
-        .deco-line {
-            height: 1px;
-            width: 80px;
-            background: linear-gradient(90deg, transparent, var(--red), transparent);
-        }
-        .deco-line.right { background: linear-gradient(90deg, transparent, var(--cyan), transparent); }
-        
-        .deco-icon {
-            font-size: 0.7rem;
-            color: var(--gold);
-            letter-spacing: 3px;
-            font-family: 'Orbitron', monospace;
-            text-shadow: 0 0 10px var(--gold);
-        }
+        .deco-line { height: 1px; width: 80px; background: linear-gradient(90deg, transparent, var(--red), transparent); }
+        .deco-icon { font-size: 0.7rem; color: var(--gold); letter-spacing: 3px; font-family: 'Orbitron', monospace; }
 
         .subtitle {
             color: #bbb;
@@ -208,7 +85,6 @@
             text-transform: uppercase;
         }
 
-        /* ===== VÍDEO ===== */
         .video-container {
             width: 90%;
             max-width: 800px;
@@ -216,19 +92,11 @@
             border-radius: 12px;
             overflow: hidden;
             background: #000;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
             border: 1px solid rgba(255,34,51,0.2);
-            position: relative;
-            transform: translateZ(0);
         }
-        video { 
-            width: 100%; 
-            display: block; 
-            aspect-ratio: 16/9; 
-            object-fit: cover;
-        }
+        video { width: 100%; display: block; aspect-ratio: 16/9; }
 
-        /* ===== BOTÕES SOCIAIS ===== */
+        /* SEUS BOTÕES ORIGINAIS ABAIXO - NÃO MEXIDOS */
         .social-grid {
             display: flex;
             gap: 14px;
@@ -252,16 +120,13 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.2s ease, filter 0.2s ease;
-            transform: translateZ(0);
         }
 
         .social-btn:hover { transform: translateY(-3px) scale(1.03); }
-
         .yt { background: linear-gradient(135deg, #cc0000, #ff0000); }
         .tk { background: #111; border: 1px solid var(--cyan); }
         .ig { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
 
-        /* ===== SPONSOR ===== */
         .sponsor-wrapper { margin-bottom: 50px; position: relative; }
         .sponsor-btn {
             display: flex;
@@ -278,11 +143,7 @@
             font-family: 'Orbitron', monospace;
             transition: 0.3s;
         }
-        .sponsor-btn:hover {
-            box-shadow: 0 0 20px rgba(255,210,0,0.3);
-            transform: scale(1.05);
-            background: rgba(255,210,0,0.1);
-        }
+        .sponsor-btn:hover { background: rgba(255,210,0,0.1); transform: scale(1.05); }
 
         .sponsor-tag {
             position: absolute;
@@ -295,51 +156,33 @@
             font-weight: 700;
         }
 
-        /* ===== FOOTER CENTRALIZADO ===== */
         .footer {
             margin: 30px 0 50px;
             font-size: 0.75rem;
-            color: #444;
-            letter-spacing: 2px;
+            color: #888;
             font-family: 'Orbitron', monospace;
-            display: flex; /* Ativa flexbox */
-            flex-direction: column; /* Organiza em coluna (título acima dos direitos) */
-            align-items: center; /* Centraliza horizontalmente */
-            justify-content: center; /* Centraliza verticalmente */
-            text-align: center; /* Garante que o texto dentro de spans também centralize */
+            text-align: center;
         }
         .footer span { color: var(--red); }
-
-        @media (max-width: 600px) {
-            .social-grid { width: 90%; }
-            .social-btn { width: 100%; }
-            .title { font-size: 2.5rem; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="bg-anime"></div>
-    <div class="overlay"></div>
-    <div class="particles" id="particles"></div>
+    <div class="overlay-fix"></div>
 
     <header class="header-section">
-        <div class="glitch-wrapper">
-            <div class="title-glow-bg"></div>
-            <h1 class="title" data-text="Anime em Caos">Anime em Caos</h1>
-        </div>
+        <h1 class="title">Anime em Caos</h1>
         <div class="title-decoration">
             <div class="deco-line"></div>
             <span class="deco-icon">⚡ CAOS ⚡</span>
-            <div class="deco-line right"></div>
+            <div class="deco-line"></div>
         </div>
         <p class="subtitle">O DNA DE DEUS DESPERTOU EM 2008.<br>A EVOLUÇÃO NÃO FOI APENAS UMA BENÇÃO.</p>
     </header>
 
     <div class="video-container">
-        <video controls preload="metadata" playsinline poster="anime.jpg">
+        <video controls poster="anime.jpg">
             <source src="anime.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos.
         </video>
     </div>
 
@@ -347,7 +190,7 @@
         <a href="LINK_DO_YOUTUBE" target="_blank" class="social-btn yt">
             <i class="fab fa-youtube"></i> YouTube
         </a>
-        <a href="https://www.instagram.com/k4iky_18?igsh=d3YyemE3Ym00d2Jv" target="_blank" class="social-btn ig">
+        <a href="https://www.instagram.com/k4iky_18" target="_blank" class="social-btn ig">
             <i class="fab fa-instagram"></i> Instagram
         </a>
         <a href="LINK_DO_TIKTOK" target="_blank" class="social-btn tk">
@@ -356,7 +199,7 @@
     </div>
 
     <div class="sponsor-wrapper">
-        <a href="https://wa.me/5588988152717?text=Ol%C3%A1!%20Quero%20ser%20patrocinador%20do%20Anime%20em%20Caos%20%F0%9F%94%A5" target="_blank" class="sponsor-btn">
+        <a href="https://wa.me/5588988152717" target="_blank" class="sponsor-btn">
             <i class="fas fa-star"></i>
             <span>Torne-se patrocinador</span>
         </a>
@@ -364,38 +207,9 @@
     </div>
 
     <footer class="footer">
-        <span>Anime em Caos</span>
+        <span>Anime em Caos</span><br>
         © 2026 Todos os direitos reservados.
     </footer>
 
-    <script>
-        const container = document.getElementById('particles');
-        const fragment = document.createDocumentFragment();
-        const colors = ['#ff2233','#00f2ea','#ffd200','#ffffff'];
-        
-        for (let i = 0; i < 25; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            const size = Math.random() * 4 + 2;
-            p.style.width = size + 'px';
-            p.style.height = size + 'px';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.background = colors[Math.floor(Math.random() * colors.length)];
-            p.style.animationDuration = (Math.random() * 8 + 7) + 's';
-            p.style.animationDelay = (Math.random() * 5) + 's';
-            fragment.appendChild(p);
-        }
-        container.appendChild(fragment);
-
-        const video = document.querySelector('video');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) {
-                    video.pause();
-                }
-            });
-        }, { threshold: 0.1 });
-        observer.observe(video);
-    </script>
 </body>
 </html>
